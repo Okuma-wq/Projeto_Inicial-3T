@@ -219,7 +219,7 @@ class Salas extends Component {
                                     {this.state.sala.map(x => {
                                         if(x.idSala === this.state.idInfo) {
                                             return x.Equipamentos.map(equipamento => {
-                                            return <div className="modal-card-content-info-lista-equipamentos-lista-card" key={equipamento.idEquipamento}>
+                                            return <div className="modal-card-content-info-lista-equipamentos-lista-card" key={equipamento.idEquipamentoNavigation.idEquipamento}>
                                                 <div className="modal-card-content-info-lista-equipamentos-lista-card-lateral">
                                                     <img draggable="false" src={icon} />
                                                 </div>
@@ -227,17 +227,17 @@ class Salas extends Component {
                                                 <div className="modal-card-content-info-lista-equipamentos-lista-card-text">
                                                     <div className="modal-card-content-info-lista-equipamentos-lista-card-text-item">
                                                         <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-title">Equipamento</p>
-                                                        <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-sub">{console.log(equipamento.nomeEquipamento)}</p>
+                                                        <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-sub">{equipamento.idEquipamentoNavigation.nomeEquipamento}</p>
                                                     </div>
 
                                                     <div className="modal-card-content-info-lista-equipamentos-lista-card-text-item">
                                                         <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-title">N° Patrimônio</p>
-                                                        <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-sub">{equipamento.numeroPatrimonio}</p>
+                                                        <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-sub">{equipamento.idEquipamentoNavigation.numeroPatrimonio}</p>
                                                     </div>
 
                                                     <div className="modal-card-content-info-lista-equipamentos-lista-card-text-item">
                                                         {/* <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-title">Situação</p> */}
-                                                        <p className={"modal-card-content-info-lista-equipamentos-lista-card-text-item-sub-situacao-" + !!equipamento.situacao ? "enable" : "disable"}>{!!equipamento.situacao ? "Disponivel" : "Indisponivel"}</p>
+                                                        <p className={"modal-card-content-info-lista-equipamentos-lista-card-text-item-sub-situacao" + !!equipamento.idEquipamentoNavigation.situacao ? "" : "disable"}>{!!equipamento.idEquipamentoNavigation.situacao ? "Disponivel" : "Indisponivel"}</p>
                                                     </div>
                                                     
                                                 </div>
