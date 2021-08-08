@@ -36,6 +36,7 @@ class Equipamentos extends Component {
             numeroPatrimonio : '',
             numeroSerie : '',
             descricao : '',
+            situacao : true,
             idSala : 0,
             
             ordenar : false,
@@ -67,6 +68,7 @@ class Equipamentos extends Component {
 
 
     buscarEquipamentosPorId = (id) => {
+        // let URL = 'http://localhost:5000/api/salaEquipamento/equipamentos/' + id;
         let URL = 'http://localhost:5000/api/equipamento/' + id;
 
         console.log(id);
@@ -86,7 +88,37 @@ class Equipamentos extends Component {
 
         .then(response => console.log(this.state.itemEquipamento))
 
+        .then(console.log(this.state.itemEquipamento))
+
         .then(this.setState({isModalOpenInfo : true}))
+
+        .catch(erro => {console.log(erro)})
+    }
+
+
+
+    buscarEquipamentosPorIdEditar = (id) => {
+        // let URL = 'http://localhost:5000/api/salaEquipamento/equipamentos/' + id;
+        let URL = 'http://localhost:5000/api/equipamento/' + id;
+
+        console.log(id);
+
+        axios(URL, {
+            headers : {
+                'Authorization' : 'Bearer ' + localStorage.getItem('user-token')
+            }
+        })
+
+        .then(response => {
+            if(response.status === 200){
+                this.setState({ itemEquipamento : response.data})
+                // console.log(this.state.itemEquipamento)
+            }
+        })
+
+        .then(response => console.log(this.state.itemEquipamento))
+
+        .then(this.setState({isModalOpenInfo : false, isModalOpenEditar : true}))
 
         .catch(erro => {console.log(erro)})
     }
@@ -138,12 +170,13 @@ class Equipamentos extends Component {
 
         var equipamento = {
             idTipoEquipamento : this.state.idTipoEquipamento,
-            idSala : this.state.idSala,
             nomeEquipamento : this.state.nomeEquipamento,
             nomeMarca : this.state.nomeMarca,
             numeroPatrimonio : this.state.numeroPatrimonio,
             numeroSerie : this.state.numeroSerie,
-            descricao : this.state.descricao
+            descricao : this.state.descricao,
+            idSala : this.state.idSala,
+            situacao : this.state.situacao
         }
 
         axios.post('http://localhost:5000/api/equipamento', equipamento, {
@@ -178,7 +211,25 @@ class Equipamentos extends Component {
 
 
 
+    excluirEquipamento = (id) => {
+        axios.delete('http://localhost:5000/api/equipamento/' + id, {
+            headers : {
+                'Authorization' : 'Bearer ' + localStorage.getItem('user-token')
+            }
+        })
+
+        .catch(erro => {console.log(erro)})
+
+        .then(this.buscarEquipamentos)
+
+        .then(this.cancelaModal)
+    }
+
+
+
     cancelaModal = () => {
+        this.setState({ isModalOpenCadastro : false })
+        this.setState({ isModalOpenInfo : false })
         this.setState({ isModalOpenCadastro : false })
         this.setState({ idTipoEquipamento : 0 })
         this.setState({ idSala : 0 })
@@ -302,7 +353,7 @@ class Equipamentos extends Component {
 
                                     <div className="modal-card-background-info-equipamentos-content-item">
                                         <span className="modal-card-background-info-equipamentos-content-item-title">Sala</span>
-                                        <p className="modal-card-background-info-equipamentos-content-item-sub">Tem q mudar aqui</p>
+                                        <p className="modal-card-background-info-equipamentos-content-item-sub">{this.state.itemEquipamento.nomeSala}</p>
                                     </div>
 
                                     <div className="modal-card-background-info-equipamentos-content-item">
@@ -326,8 +377,8 @@ class Equipamentos extends Component {
 
                                 </div>
                                 <div className="modal-card-background-info-equipamentos-content-btns">
-                                    <button onClick={() => this.setState({isModalOpenInfo : false, isModalOpenEditar : true})} className="modal-card-background-info-equipamentos-content-btns-btn">Editar</button>
-                                    <button onClick={() => this.setState({isModalOpenCadastro : false})} className="modal-card-background-info-equipamentos-content-btns-btn">Excluir</button>
+                                    <button onClick={() => this.buscarEquipamentosPorIdEditar(this.state.itemEquipamento.idEquipamento)} className="modal-card-background-info-equipamentos-content-btns-btn">Editar</button>
+                                    <button type="button" onClick={() => this.excluirEquipamento(this.state.itemEquipamento.idEquipamento)} className="modal-card-background-info-equipamentos-content-btns-btn">Excluir</button>
                                 </div>
 
                             </div>
@@ -348,7 +399,7 @@ class Equipamentos extends Component {
                                 
                                 <div className="modal-card-form-input-patrimonio-marca">
                                     <div className="modal-card-form-input-patrimonio-content">
-                                        <input name="numeroPatrimonio" value={this.state.numeroPatrimonio} onChange={this.atualizaEstado} required type="text" placeholder="N° Patrimônio" className="modal-card-form-input-patrimonio" />
+                                        <input maxLength="8" name="numeroPatrimonio" value={this.state.numeroPatrimonio} onChange={this.atualizaEstado} required type="text" placeholder="N° Patrimônio" className="modal-card-form-input-patrimonio" />
                                     </div>
                                     <div className="modal-card-form-input-marca-content">
                                         <input name="nomeMarca" value={this.state.nomeMarca} onChange={this.atualizaEstado} required type="text" placeholder="Marca" className="modal-card-form-input-marca" />
@@ -358,7 +409,7 @@ class Equipamentos extends Component {
 
                                 <div className="modal-card-form-input-serie-situacao">
                                     <div className="modal-card-form-input-serie-content">
-                                        <input name="numeroSerie" value={this.state.numeroSerie} onChange={this.atualizaEstado} required type="text" placeholder="N° Série" className="modal-card-form-input-serie" />
+                                        <input maxLength="11" name="numeroSerie" value={this.state.numeroSerie} onChange={this.atualizaEstado} required type="text" placeholder="N° Série" className="modal-card-form-input-serie" />
                                     </div>
                                     {
                                         <select 
@@ -429,23 +480,13 @@ class Equipamentos extends Component {
 
                 <Modal isOpen={this.state.isModalOpenEditar}>
                     <div className="modal">
-                        <div className="modal-card-background-equipamentos">
+                        <form onSubmit={this.editarEquipamentos} className="modal-card-background-equipamentos-editar">
                             <div className="modal-card-title">
                                 <p>Editar Equipamento</p>
                             </div>
 
                             <div className="modal-card-form">
                                 <input type="text" placeholder="Nome do equipamento" className="modal-card-form-input-nome" />
-
-                                <div className="modal-card-form-input-patrimonio-marca">
-                                    <div className="modal-card-form-input-patrimonio-content">
-                                        <input type="text" placeholder="N° Patrimônio" className="modal-card-form-input-patrimonio" />
-                                    </div>
-                                    <div className="modal-card-form-input-marca-content">
-                                        <input type="text" placeholder="Marca" className="modal-card-form-input-marca" />
-                                    </div>
-                                    {/* <select value="Metragem (m²)" className="modal-card-form-input-andar" /> */}
-                                </div>
 
                                 <div className="modal-card-form-input-serie-situacao">
                                     <div className="modal-card-form-input-serie-content">
@@ -459,10 +500,10 @@ class Equipamentos extends Component {
 
                             </div>
                             <div className="modal-card-form-btns">
-                                <button className="modal-card-form-btns-btn">Editar</button>
+                                <button className="modal-card-form-btns-btn">Salvar</button>
                                 <button onClick={() => this.setState({isModalOpenEditar : false})} className="modal-card-form-btns-btn">Cancelar</button>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </Modal>
             </>

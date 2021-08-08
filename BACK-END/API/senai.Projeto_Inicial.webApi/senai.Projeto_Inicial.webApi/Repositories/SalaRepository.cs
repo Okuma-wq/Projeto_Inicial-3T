@@ -72,5 +72,10 @@ namespace senai.Projeto_Inicial.webApi.Repositories
         {
             return ctx.Salas.ToList();
         }
+
+        public Sala BuscarPorId(int id)
+        {
+            return ctx.Salas.FirstOrDefault(x => x.IdSala == id);
+        }
     }
 }

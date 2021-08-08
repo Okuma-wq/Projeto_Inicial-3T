@@ -29,7 +29,7 @@ namespace senai.Projeto_Inicial.webApi.Controllers
         {
             try
             {
-                return Ok(_salaEquipamentoRepository.Listar().OrderBy(c => c.IdSalaEquipamento));
+                return Ok(_salaEquipamentoRepository.Listar().OrderBy(c => c.IdSalasEquipamento));
             }
             catch (Exception ex)
             {
@@ -87,7 +87,7 @@ namespace senai.Projeto_Inicial.webApi.Controllers
         }
 
         //[Authorize]
-        [HttpGet("/Equipamentos/{id}")]
+        [HttpGet("Equipamentos/{id}")]
         public IActionResult GetByIdEquipamentos(int id)
         {
             try

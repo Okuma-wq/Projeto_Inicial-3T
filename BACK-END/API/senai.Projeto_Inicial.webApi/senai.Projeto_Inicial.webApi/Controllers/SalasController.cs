@@ -42,6 +42,26 @@ namespace senai.Projeto_Inicial.webApi.Controllers
             }
         }
 
+        [HttpGet("buscar/{id}")]
+        public IActionResult GetById(int id)
+        {
+            try
+            {
+                Sala salaBuscada = _salaRepository.BuscarPorId(id);
+
+                if (salaBuscada == null)
+                {
+                    return NotFound("Nenhuma sala encontrada!");
+                }
+
+                return Ok(salaBuscada);
+            }
+            catch (Exception codErro)
+            {
+                return BadRequest(codErro);
+            }
+        }
+
         /// <summary>
         /// Cria sala
         /// </summary>

@@ -30,14 +30,14 @@ namespace senai.Projeto_Inicial.webApi.Context
             if (!optionsBuilder.IsConfigured)
             {
                 // Okuma:
-                 optionsBuilder.UseSqlServer("Data Source=DESKTOP-4A3IQMH\\SQLEXPRESS; Initial Catalog=INICIAL_3DT; user id=sa; pwd=senai@132;");
+                // optionsBuilder.UseSqlServer("Data Source=DESKTOP-4A3IQMH\\SQLEXPRESS; Initial Catalog=INICIAL_3DT; user id=sa; pwd=senai@132;");
                 // Lucas:
                 // optionsBuilder.UseSqlServer("Data Source=DESKTOP-KVKV9TT\\SA; Initial Catalog=INICIAL_3DT; user id=sa; pwd=senai@132;");
                 // Senai:
                 // optionsBuilder.UseSqlServer("Data Source=DESKTOP-FF3MK0V\\SQLEXPRESS; Initial Catalog=INICIAL_3DT; user id=sa; pwd=Senai@132;");
 
                 // Apolinário:
-                //optionsBuilder.UseSqlServer("Data Source=DESKTOP-HMTUR0P; initial catalog=INICIAL_3DT; user Id=SA; pwd=Soufoda2;");
+                optionsBuilder.UseSqlServer("Data Source=DESKTOP-HMTUR0P; initial catalog=INICIAL_3DT; user Id=SA; pwd=Soufoda2;");
             }
         }
 
@@ -120,8 +120,8 @@ namespace senai.Projeto_Inicial.webApi.Context
 
             modelBuilder.Entity<SalasEquipamento>(entity =>
             {
-                entity.HasKey(e => e.IdSalaEquipamento)
-                    .HasName("PK__SalasEqu__8D6051B877FC98CE");
+                entity.HasKey(e => e.IdSalasEquipamento)
+                    .HasName("PK_SalasEqu_8ADD9F2066C3C3BF");
 
                 entity.Property(e => e.DataEntrada)
                     .HasColumnType("date")

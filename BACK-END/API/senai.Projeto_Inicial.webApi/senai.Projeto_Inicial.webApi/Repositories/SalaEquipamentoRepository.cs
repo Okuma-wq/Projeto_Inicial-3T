@@ -47,6 +47,7 @@ namespace senai.Projeto_Inicial.webApi.Repositories
                 .Select(e => new SalasEquipamento() 
                 { 
                     DataEntrada = e.DataEntrada,
+                    IdEquipamento = e.IdEquipamento,
 
                     IdEquipamentoNavigation = new Equipamento()
                     {

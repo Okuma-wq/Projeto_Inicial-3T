@@ -129,7 +129,7 @@
 }
 
 .equipamentos-card-text-item{
-    width: 240px;
+    width: 240px; 
     height: 55px;
     /* background-color: yellow; */
 }
@@ -392,6 +392,14 @@
 .modal-card-background-equipamentos{
     width: 490px;
     height: 400px;
+    border-radius: 3px;
+    padding: 20px;
+    background-color: white;
+}
+
+.modal-card-background-equipamentos-editar{
+    width: 490px;
+    height: 380px;
     border-radius: 3px;
     padding: 20px;
     background-color: white;

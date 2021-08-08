@@ -7,7 +7,7 @@ namespace senai.Projeto_Inicial.webApi.Domains
 {
     public partial class SalasEquipamento
     {
-        public int IdSalaEquipamento { get; set; }
+        public int IdSalasEquipamento { get; set; }
         public int? IdSala { get; set; }
         public int? IdEquipamento { get; set; }
         public DateTime DataEntrada { get; set; }

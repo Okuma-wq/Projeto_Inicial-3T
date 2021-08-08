@@ -17,96 +17,98 @@ import '../../assets/css/reset.css';
 // Imgs
 import icon from '../../assets/img/cards-lista-btn.svg';
 import sala from '../../assets/img/sala-modal-info-icon.svg';
+import ordenardown from '../../assets/img/ordenar-down-icon.svg';
+import ordenarup from '../../assets/img/ordenar-up-icon.svg';
+
 
 class Salas extends Component {
     constructor(props){
         super(props);
         this.state = {
+            listaSalas : [],
+            itemSala : {},
+            listaEquipamentosSala : [],
+            
+            ordenar : false,
             isModalOpenCadastro : false,
             isModalOpenInfo : false,
-            isModalOpenEditar : false,
-            sala : [],
-            equipamento : [],
-            salasEquipamento : [],
-            idInfo : 0
+            isModalOpenEditar : false
         }
     }
 
-    async componentDidMount() {
-        this.sala()
-        // this.equipamento()
-        //this.salasequipamento()
-    }
 
-    sala = () => {
-        axios.get("http://localhost:5000/api/salas", {
+
+    buscarSalas = () => {
+        var URL = 'http://localhost:5000/api/salas';
+
+        axios(URL, {
             headers : {
-                "Authorization" : "Bearer " + localStorage.getItem("user-token")
+                'Authorization' : 'Bearer ' + localStorage.getItem('user-token')
             }
         })
+
         .then(response => {
-            this.setState({sala : response.data})
-            return response.data
+            if(response.status === 200){
+                this.setState({ listaSalas : response.data})
+            }
         })
-        .then(x => {
-            let a = []
-            x.map(sala => {
-                axios.get("http://localhost:5000/api/salaequipamento/"+sala.idSala, {
-                    headers : {
-                        "Authorization" : "Bearer " + localStorage.getItem("user_token")
-                    }
-                })
-                .then(response => {
-                    sala.Equipamentos = response.data
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-                a.push(sala)
-                return true
-            })
-            return a
-        })
-        .then(x => {
-            this.setState({sala : x})
-            return "apolinario"
-        })
-        .then(x => console.log(this.state.sala))
-        .catch(error => {
-            console.log(error)
-        })
-        
 
-        
+        .catch(erro => {console.log(erro)})
     }
-    
-    // equipamento = () => {
-    //     axios.get("http://localhost:5000/api/equipamento", {
+
+
+
+    buscarSalasPorId = (id) => {
+        let URL = 'http://localhost:5000/api/salas/buscar/' + id;
+
+        console.log(id);
+
+        axios(URL, {
+            headers : {
+                'Authorization' : 'Bearer ' + localStorage.getItem('user-token')
+            }
+        })
+
+        .then(response => {
+            if(response.status === 200){
+                this.setState({ itemSala : response.data})
+            }
+        })
+
+        .then(response => console.log(this.state.itemSala))
+
+        .then(this.setState({isModalOpenInfo : true}))
+
+        .catch(erro => {console.log(erro)})
+    }
+
+
+
+    // buscarEquipamentoSala = (id) => {
+    //     var URL = 'http://localhost:5000/api/salaEquipamento/' + id;
+
+    //     axios(URL, {
     //         headers : {
-    //             "Authorization" : "Bearer " + localStorage.getItem("user-token")
+    //             'Authorization' : 'Bearer ' + localStorage.getItem('user-token')
     //         }
     //     })
+
     //     .then(response => {
-    //         this.setState({equipamento : response.data})
+    //         if(response.status === 200){
+    //             this.setState({ listaEquipamentosSala : response.data})
+    //         }
     //     })
-    //     .catch(error => {
-    //         console.log(error)
-    //     })
+    //     .then(response => console.log(this.state.listaEquipamentosSala))
+
+    //     .catch(erro => {console.log(erro)})
     // }
 
-    // salasequipamento = () => {
-    //     axios.get("http://localhost:5000/equipamentos", {
-    //         headers : {
-    //             "Authorization" : "Bearer " + localStorage.getItem("user-token")
-    //         }
-    //     })
-    //     .then(response => {
-    //         this.setState({salasEquipamento : response.data})
-    //     })
-    //     .catch(error => {
-    //         console.log(error)
-    //     })
-    // }
+
+
+    componentDidMount() {
+        this.buscarSalas();
+    }
+
 
     
     render() {
@@ -120,14 +122,17 @@ class Salas extends Component {
                         </div>
 
                         <div className="salas-btns-ordenar">
-                            <button>Ordenar</button>
+                        <button onClick={() => {this.setState({ordenar : !this.state.ordenar}); this.buscarSalas()}}>Ordenar<img src={this.state.ordenar === false ? ordenardown : ordenarup} draggable="false" /></button>
                         </div>
                     </div>
 
                     <div className="salas-lista">
-                        {this.state.sala.map(x => {
-                            return <div className="salas-lista-card" key={x.idSala}>
-                                        <button onClick={() => this.setState({isModalOpenInfo : true, idInfo : x.idSala})} className="salas-card-click">
+                        {
+                            this.state.ordenar && this.state.listaSalas.sort((a, b) => b.idSala - a.idSala),
+                            this.state.listaSalas.map(sala => {
+                                return(
+                                    <div key={sala.idSala} className="salas-lista-card" >
+                                        <button onClick={() => this.buscarSalasPorId(sala.idSala), this.buscarEquipamentoSala(this.state.itemSala.idSala)} className="salas-card-click">
                                             <div className="salas-card-btn-lateral">
                                                 <img draggable="false" src={icon} />
                                             </div>
@@ -135,22 +140,22 @@ class Salas extends Component {
                                             <div className="salas-card-text">
                                                 <div className="salas-card-text-item">
                                                     <span className="salas-card-text-title">Sala</span>
-                                                    <p className="salas-card-text-content">{x.nomeSala}</p>
+                                                    <p className="salas-card-text-content">{sala.nomeSala}</p>
                                                 </div>
                                                 <div className="salas-card-text-item">
                                                     <span className="salas-card-text-title">Andar</span>
-                                                    <p className="salas-card-text-content">{x.Andar}</p>
+                                                    <p className="salas-card-text-content">{sala.andar === 0 ? 'Térreo' : sala.andar + '°'}</p>
                                                 </div>
                                                 <div className="salas-card-text-item">
                                                     <span className="salas-card-text-title">Metragem</span>
-                                                    <p className="salas-card-text-content">{x.metragem}m²</p>
+                                                    <p className="salas-card-text-content">{sala.metragem + 'm²'}</p>
                                                 </div>
                                             </div>
                                         </button>
                                     </div>
-                        })}
-                        
-
+                                )
+                            })
+                        }
                     </div>
                 </div>
 
@@ -181,18 +186,14 @@ class Salas extends Component {
 
                 <Modal isOpen={this.state.isModalOpenInfo}>
                     <div className="modal">
+                        
                         <div className="modal-card-background-info-salas">
                             <div className="modal-card-content-info-header">
                                 <div className="modal-card-content-info-header-text">
 
                                     <div className="modal-card-content-info-header-text-nome">
                                         <img src={sala} draggable="false" />
-                                        <p>{this.state.sala.map(x => {
-                                            if(x.idSala == this.state.idInfo) {
-                                                return x.nomeSala
-                                            }
-                                            return ""
-                                            })}</p>
+                                        <p>{'Sala de ' + this.state.itemSala.nomeSala}</p>
                                     </div>
                                 </div>
 
@@ -216,110 +217,36 @@ class Salas extends Component {
                                 </div>
 
                                 <div className="modal-card-content-info-lista-equipamentos-lista">
-                                    {this.state.sala.map(x => {
-                                        if(x.idSala === this.state.idInfo) {
-                                            return x.Equipamentos.map(equipamento => {
-                                            return <div className="modal-card-content-info-lista-equipamentos-lista-card" key={equipamento.idEquipamento}>
-                                                <div className="modal-card-content-info-lista-equipamentos-lista-card-lateral">
-                                                    <img draggable="false" src={icon} />
+                                    {
+                                        this.state.listaEquipamentosSala.map(item => {
+                                            return(
+                                                <div key={this.state.itemSala.idSala} className="modal-card-content-info-lista-equipamentos-lista-card" >
+                                                    <div className="modal-card-content-info-lista-equipamentos-lista-card-lateral">
+                                                        <img draggable="false" src={icon} />
+                                                    </div>
+
+                                                    <div className="modal-card-content-info-lista-equipamentos-lista-card-text">
+                                                        <div className="modal-card-content-info-lista-equipamentos-lista-card-text-item">
+                                                            <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-title">Equipamento</p>
+                                                            <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-sub">exemplo</p>
+                                                        </div>
+
+                                                        <div className="modal-card-content-info-lista-equipamentos-lista-card-text-item">
+                                                            <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-title">N° Patrimônio</p>
+                                                            <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-sub">exemplo</p>
+                                                        </div>
+
+                                                        <div className="modal-card-content-info-lista-equipamentos-lista-card-text-item">
+                                                            {/* <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-title">Situação</p> */}
+                                                            <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-sub-situacao">Disponível</p>
+                                                        </div>
+                                                        
+                                                    </div>
                                                 </div>
+                                            )
+                                        })
+                                    }
 
-                                                <div className="modal-card-content-info-lista-equipamentos-lista-card-text">
-                                                    <div className="modal-card-content-info-lista-equipamentos-lista-card-text-item">
-                                                        <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-title">Equipamento</p>
-                                                        <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-sub">{console.log(equipamento.nomeEquipamento)}</p>
-                                                    </div>
-
-                                                    <div className="modal-card-content-info-lista-equipamentos-lista-card-text-item">
-                                                        <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-title">N° Patrimônio</p>
-                                                        <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-sub">{equipamento.numeroPatrimonio}</p>
-                                                    </div>
-
-                                                    <div className="modal-card-content-info-lista-equipamentos-lista-card-text-item">
-                                                        {/* <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-title">Situação</p> */}
-                                                        <p className={"modal-card-content-info-lista-equipamentos-lista-card-text-item-sub-situacao-" + !!equipamento.situacao ? "enable" : "disable"}>{!!equipamento.situacao ? "Disponivel" : "Indisponivel"}</p>
-                                                    </div>
-                                                    
-                                                </div>
-                                            </div>
-                                            })
-                                        }
-                                        return ""
-                                    })}
-                                    
-
-                                    <div className="modal-card-content-info-lista-equipamentos-lista-card">
-                                        <div className="modal-card-content-info-lista-equipamentos-lista-card-lateral">
-                                            <img draggable="false" src={icon} />
-                                        </div>
-
-                                        <div className="modal-card-content-info-lista-equipamentos-lista-card-text">
-                                            <div className="modal-card-content-info-lista-equipamentos-lista-card-text-item">
-                                                <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-title">Equipamento</p>
-                                                <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-sub">Esqueleto Anatômico</p>
-                                            </div>
-
-                                            <div className="modal-card-content-info-lista-equipamentos-lista-card-text-item">
-                                                <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-title">N° Patrimônio</p>
-                                                <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-sub">13200001</p>
-                                            </div>
-
-                                            <div className="modal-card-content-info-lista-equipamentos-lista-card-text-item">
-                                                {/* <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-title">Situação</p> */}
-                                                <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-sub-situacao">Disponível</p>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-
-                                    <div className="modal-card-content-info-lista-equipamentos-lista-card">
-                                        <div className="modal-card-content-info-lista-equipamentos-lista-card-lateral">
-                                            <img draggable="false" src={icon} />
-                                        </div>
-
-                                        <div className="modal-card-content-info-lista-equipamentos-lista-card-text">
-                                            <div className="modal-card-content-info-lista-equipamentos-lista-card-text-item">
-                                                <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-title">Equipamento</p>
-                                                <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-sub">Esqueleto Anatômico</p>
-                                            </div>
-
-                                            <div className="modal-card-content-info-lista-equipamentos-lista-card-text-item">
-                                                <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-title">N° Patrimônio</p>
-                                                <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-sub">13200001</p>
-                                            </div>
-
-                                            <div className="modal-card-content-info-lista-equipamentos-lista-card-text-item">
-                                                {/* <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-title">Situação</p> */}
-                                                <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-sub-situacao">Disponível</p>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-
-                                    <div className="modal-card-content-info-lista-equipamentos-lista-card">
-                                        <div className="modal-card-content-info-lista-equipamentos-lista-card-lateral">
-                                            <img draggable="false" src={icon} />
-                                        </div>
-
-                                        <div className="modal-card-content-info-lista-equipamentos-lista-card-text">
-                                            <div className="modal-card-content-info-lista-equipamentos-lista-card-text-item">
-                                                <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-title">Equipamento</p>
-                                                <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-sub">Esqueleto Anatômico</p>
-                                            </div>
-
-                                            <div className="modal-card-content-info-lista-equipamentos-lista-card-text-item">
-                                                <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-title">N° Patrimônio</p>
-                                                <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-sub">13200001</p>
-                                            </div>
-
-                                            <div className="modal-card-content-info-lista-equipamentos-lista-card-text-item">
-                                                {/* <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-title">Situação</p> */}
-                                                <p className="modal-card-content-info-lista-equipamentos-lista-card-text-item-sub-situacao">Disponível</p>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                    
                                 </div>
                             </div>
                         </div>
@@ -348,7 +275,7 @@ class Salas extends Component {
                                 </div>
                             </div>
                         </div>
-                        {this.state.sala.map(x => true)}
+
                     </div>
                 </Modal>
 
