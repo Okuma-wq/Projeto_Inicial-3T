@@ -353,7 +353,7 @@ class Equipamentos extends Component {
 
                                     <div className="modal-card-background-info-equipamentos-content-item">
                                         <span className="modal-card-background-info-equipamentos-content-item-title">Sala</span>
-                                        <p className="modal-card-background-info-equipamentos-content-item-sub">{this.state.itemEquipamento.nomeSala}</p>
+                                        <p className="modal-card-background-info-equipamentos-content-item-sub">Em breve!</p>
                                     </div>
 
                                     <div className="modal-card-background-info-equipamentos-content-item">
