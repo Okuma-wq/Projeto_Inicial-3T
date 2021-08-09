@@ -77,5 +77,11 @@ namespace senai.Projeto_Inicial.webApi.Repositories
         {
             return ctx.Salas.FirstOrDefault(x => x.IdSala == id);
         }
+
+        public List<Sala> ListarAndares()
+        {
+            return ctx.Salas.Select(x => new Sala { Andar = x.Andar }).ToList();
+
+        }
     }
 }

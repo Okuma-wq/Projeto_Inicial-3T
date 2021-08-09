@@ -42,6 +42,20 @@ namespace senai.Projeto_Inicial.webApi.Controllers
             }
         }
 
+        [HttpGet("andares")]
+        public IActionResult GetAndar()
+        {
+            try
+            {
+                return Ok(_salaRepository.ListarAndares());
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex);
+            }
+        }
+
         [HttpGet("buscar/{id}")]
         public IActionResult GetById(int id)
         {

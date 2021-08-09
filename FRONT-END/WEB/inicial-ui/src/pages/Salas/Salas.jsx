@@ -21,6 +21,7 @@ import ordenardown from '../../assets/img/ordenar-down-icon.svg';
 import ordenarup from '../../assets/img/ordenar-up-icon.svg';
 
 
+
 class Salas extends Component {
     constructor(props){
         super(props);
@@ -28,8 +29,14 @@ class Salas extends Component {
             listaSalas : [],
             itemSala : {},
             listaEquipamentosSala : [],
+            listaAndares : [],
+
+            nomeSala : '',
+            andar : '',
+            metragem : '',
             
             ordenar : false,
+            isLoading : false,
             isModalOpenCadastro : false,
             isModalOpenInfo : false,
             isModalOpenEditar : false
@@ -52,6 +59,28 @@ class Salas extends Component {
                 this.setState({ listaSalas : response.data})
             }
         })
+
+        .catch(erro => {console.log(erro)})
+    }
+
+
+
+    buscarAndares = () => {
+        var URL = 'http://localhost:5000/api/salas/andares';
+
+        axios(URL, {
+            headers : {
+                'Authorization' : 'Bearer ' + localStorage.getItem('user-token')
+            }
+        })
+
+        .then(response => {
+            if(response.status === 200){
+                this.setState({ listaAndares : response.data})
+            }
+        })
+
+        .then(response => console.log(this.state.listaAndares))
 
         .catch(erro => {console.log(erro)})
     }
@@ -137,30 +166,79 @@ class Salas extends Component {
     }
 
 
-    // buscarEquipamentoSala = (id) => {
-    //     var URL = 'http://localhost:5000/api/salaEquipamento/' + id;
 
-    //     axios(URL, {
-    //         headers : {
-    //             'Authorization' : 'Bearer ' + localStorage.getItem('user-token')
-    //         }
-    //     })
+    cadastrarSala = (event) => {
+        event.preventDefault();
 
-    //     .then(response => {
-    //         if(response.status === 200){
-    //             this.setState({ listaEquipamentosSala : response.data})
-    //         }
-    //     })
-    //     .then(response => console.log(this.state.listaEquipamentosSala))
+        var sala = {
+            nomeSala : this.state.nomeSala,
+            andar : this.state.andar,
+            metragem : this.state.metragem
+        }
 
-    //     .catch(erro => {console.log(erro)})
-    // }
+        axios.post('http://localhost:5000/api/salas', sala, {
+            headers : {
+                'Authorization' : 'Bearer ' + localStorage.getItem('user-token')
+            }
+        })
+
+        .then(response => {
+            if(response.status === 201){
+                this.setState({isLoading : false});
+                this.setState({isModalOpenCadastro : false});
+            }
+        })
+
+        .catch(erro => {
+            this.setState({isLoading : false})
+        })
+
+        .then(this.buscarEquipamentoSala)
+
+        .then(this.cancelaModal)
+    }
+
+
+
+    atualizaEstado = async (event) => {
+        await this.setState({
+            [event.target.name] : event.target.value
+        })
+    }
+
+
+
+    excluirSala = (id) => {
+        axios.delete('http://localhost:5000/api/salas/' + id, {
+            headers : {
+                'Authorization' : 'Bearer ' + localStorage.getItem('user-token')
+            }
+        })
+
+        .catch(erro => {console.log(erro)})
+
+        .then(this.buscarSalas)
+
+        .then(this.cancelaModal)
+    }
+
+
+
+    cancelaModal = () => {
+        this.setState({ isModalOpenCadastro : false })
+        this.setState({ isModalOpenInfo : false })
+        this.setState({ isModalOpenCadastro : false })
+        this.setState({ nomeSala : '' })
+        this.setState({ andar : 0 })
+        this.setState({ metragem : 0 })
+    }
 
 
 
     componentDidMount() {
         this.buscarSalas();
         this.buscarEquipamentoSala();
+        this.buscarAndares();
     }
 
 
@@ -215,26 +293,31 @@ class Salas extends Component {
 
                 <Modal isOpen={this.state.isModalOpenCadastro}>
                     <div className="modal">
-                        <div className="modal-card-background">
+                        <form onSubmit={this.cadastrarSala} className="modal-card-background">
                             <div className="modal-card-title">
                                 <p>Cadastrar Sala</p>
                             </div>
 
                             <div className="modal-card-form">
-                                <input type="text" placeholder="Nome da sala" className="modal-card-form-input-nome" />
+                                <input name="nomeSala" value={this.state.nomeSala} onChange={this.atualizaEstado} required type="text" placeholder="Nome da sala" className="modal-card-form-input-nome" />
                                 <div className="modal-card-form-input-metragem-andar">
                                     <div className="modal-card-form-input-metragem-content">
-                                        <input type="text" placeholder="Metragem (m²)" className="modal-card-form-input-metragem" />
+                                        <input name="metragem" value={this.state.metragem} onChange={this.atualizaEstado} required type="text" placeholder="Metragem (m²)" className="modal-card-form-input-metragem" />
                                     </div>
-                                    <select value="Metragem (m²)" className="modal-card-form-input-andar" />
+                                    <input quantity max="2" min="0" name="andar" value={this.state.andar} onChange={this.atualizaEstado} required type="number" placeholder="Andar" className="modal-card-form-input-andar" />
                                 </div>
 
                                 <div className="modal-card-form-btns">
-                                    <button className="modal-card-form-btns-btn">Cadastrar</button>
-                                    <button onClick={() => this.setState({isModalOpenCadastro : false})} className="modal-card-form-btns-btn">Cancelar</button>
+                                    {
+                                        this.state.isLoading === true && (<button className="modal-card-form-btns-btn-disable" value="aguarde..." type="submit" disabled>aguarde...</button>)
+                                    }
+                                    {
+                                        this.state.isLoading === false && (<button className="modal-card-form-btns-btn" type="submit" disabled={this.state.nomeSala === '' || this.state.metragem === '' || this.state.andar === '' ? "none" : ""}>cadastrar</button>)
+                                    }
+                                    <button onClick={() => this.cancelaModal()} disabled={this.state.isLoading === true ? 'none' : ''} className="modal-card-form-btns-btn">Cancelar</button>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </Modal>
 
@@ -258,7 +341,7 @@ class Salas extends Component {
 
                                     <div className="modal-card-content-info-header-btns-btn">
                                         <button onClick={() => this.setState({isModalOpenInfo : false, isModalOpenEditar : true})}>Editar</button>
-                                        <button>Excluir</button>
+                                        <button onClick={() => this.excluirSala(this.state.itemSala.idSala)}>Excluir</button>
                                     </div>
                                 </div>
                             </div>
