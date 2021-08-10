@@ -15,8 +15,9 @@
 
 }
 
+
 .menu-controle-content{
-    height: 88%;
+    height: 92%;
     /* background-color: red; */
     display: flex;
     flex-direction: column;
@@ -29,6 +30,11 @@
     text-transform: uppercase;
     font-weight: 800;
     user-select: none;
+}
+
+.menu-controle-text img{
+    height: 5em;
+    margin: 2em -6px;
 }
 
 .menu-controle-pages{
@@ -77,6 +83,7 @@
 
 .menu-controle-pages-page p{
     width: 154px;
+    font-family: 'Roboto',Arial, Helvetica, sans-serif;
 }
 
 .menu-controle-pages-page a{
@@ -84,6 +91,7 @@
     padding: 8px 0;
     padding-right: 180px;
     padding-left: 15px;
+    font-family: 'Roboto',Arial, Helvetica, sans-serif;
 }
 
 .menu-controle-pages-page a:hover{
@@ -180,4 +188,5 @@
 
 .menu-controle-logout-btn img{
     margin-left: 15px;
+
 }

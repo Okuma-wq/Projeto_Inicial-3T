@@ -9,6 +9,8 @@ import '../assets/css/menuControle.css';
 
 // Imgs
 import sair from '../assets/img/menu-controle-sair.svg';
+import logo from '../assets/img/logo.svg';
+
 
 // Services
 import {logout, parseJwt} from '../services/Auth';
@@ -78,8 +80,15 @@ class MenuControle extends Component{
 
                         <div className="menu-controle-content">
                             <div className="menu-controle-text">
-                                <p className="menu-controle-text-title">Painel de Controle</p>
+
+
+                                 <img draggable="false" src={logo} />
+                               
+                               
                                 <div className="menu-controle-pages">
+                                    
+                                    
+                                    
                                     <div className={URL === '/salas' ? 'menu-controle-pages-page' : 'menu-controle-pages-page-disable'}>
                                         <Link to="/salas">
                                             <p className={URL === '/salas' ? 'menu-controle-pages-title' : 'menu-controle-pages-title-disable'}>Salas</p>
