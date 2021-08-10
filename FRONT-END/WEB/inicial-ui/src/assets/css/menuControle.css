@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
 .menu-controle-background{
     display: flex;
     position: relative;
@@ -35,6 +37,7 @@
 .menu-controle-text img{
     height: 5em;
     margin: 2em -6px;
+    margin-bottom: 5em;
 }
 
 .menu-controle-pages{
@@ -83,6 +86,7 @@
 
 .menu-controle-pages-page p{
     width: 154px;
+    font-weight: 700;
     font-family: 'Roboto',Arial, Helvetica, sans-serif;
 }
 

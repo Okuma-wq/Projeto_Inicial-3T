@@ -55,7 +55,7 @@
     font-weight: 800;
     text-transform: uppercase;
     padding-bottom: 30px;
-    font-family: "Lemon/Milk";
+    font-family: "Lemon/Milk",Arial, Helvetica, sans-serif;
 
     color: #1B415C;
 
@@ -130,7 +130,7 @@
 
 
 .login-form-btns input:hover{
-    box-shadow: rgba(53, 129, 184, 1) 17.5em 0px 0px 0px inset;
+    box-shadow: rgb(51, 170, 255) 17.5em 0px 0px 0px inset;
 
 
 }
