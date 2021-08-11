@@ -12,6 +12,9 @@ import '../../assets/css/reset.css';
 
 // Imgs
 import banner from '../../assets/img/login-banner.svg';
+import logo from '../../assets/img/logo.svg';
+import lock from '../../assets/img/lock.svg';
+import mail from '../../assets/img/mail.svg';
 
 
 class Login extends Component {
@@ -86,7 +89,15 @@ class Login extends Component {
             <>
                 <div className="login-banner-background">
                     <div className="login-banner">
-                        <img src={banner} draggable="false" />
+
+                        <div className="logo">
+                            <img src={logo} draggable="false" className="logo"/>
+                        </div>
+
+                        <div className="banner">
+                            <img src={banner} draggable="false" />
+                        </div>
+
                     </div>
                 </div>
 
@@ -97,8 +108,17 @@ class Login extends Component {
                         </div>
 
                         <div className="login-form-inputs">
-                            <input name="email" value={this.state.email} onChange={this.atualizarEmail} autoComplete="off" type="email" placeholder="E-mail" />
-                            <input name="senha" value={this.state.senha} onChange={this.atualizarSenha} type="password" placeholder="Senha" />
+
+                            <div className="mail">
+                                <img src={mail} draggable="false" />
+                                <input name="email" value={this.state.email} onChange={this.atualizarEmail} autoComplete="off" type="email" placeholder="E-mail" />
+                            </div>
+
+                            <div className="lock">
+                                <img src={lock} draggable="false" />    
+                                <input name="senha" value={this.state.senha} onChange={this.atualizarSenha} type="password" placeholder="Senha" />    
+                            </div>
+                            
                         </div>
 
                         <div className="login-form-btns">

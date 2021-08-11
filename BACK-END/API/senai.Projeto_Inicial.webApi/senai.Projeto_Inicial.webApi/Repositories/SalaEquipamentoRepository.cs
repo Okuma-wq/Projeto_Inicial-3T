@@ -47,6 +47,7 @@ namespace senai.Projeto_Inicial.webApi.Repositories
                 .Select(e => new SalasEquipamento() 
                 { 
                     DataEntrada = e.DataEntrada,
+                    IdEquipamento = e.IdEquipamento,
 
                     IdEquipamentoNavigation = new Equipamento()
                     {
@@ -131,9 +132,35 @@ namespace senai.Projeto_Inicial.webApi.Repositories
             ctx.SaveChanges();
         }
 
-        public List<SalasEquipamento> ListarIdSala(int id)
+        public SalasEquipamento BuscarPorIdEquipamento(int idEquipamento)
         {
-            return ctx.SalasEquipamentos.Where(x => x.IdSala == id).Include(x => x.IdEquipamentoNavigation).ToList();
+            return ctx.SalasEquipamentos
+                .Select(e => new SalasEquipamento()
+                {
+                    DataSaida = e.DataSaida,
+
+                    IdEquipamentoNavigation = new Equipamento()
+                    {
+                        IdEquipamento = e.IdEquipamentoNavigation.IdEquipamento,
+                        NomeEquipamento = e.IdEquipamentoNavigation.NomeEquipamento,
+                        NomeMarca = e.IdEquipamentoNavigation.NomeMarca,
+                        Descricao = e.IdEquipamentoNavigation.Descricao,
+                        NumeroPatrimonio = e.IdEquipamentoNavigation.NumeroPatrimonio,
+                        NumeroSerie = e.IdEquipamentoNavigation.NumeroSerie,
+                        Situacao = e.IdEquipamentoNavigation.Situacao,
+
+                        IdTipoEquipamentoNavigation = new TiposEquipamento()
+                        {
+                            Titulo = e.IdEquipamentoNavigation.IdTipoEquipamentoNavigation.Titulo
+                        }
+                    },
+
+                    IdSalaNavigation = new Sala()
+                    {
+                        NomeSala = e.IdSalaNavigation.NomeSala
+                    }
+                })
+                .FirstOrDefault(c => c.IdEquipamentoNavigation.IdEquipamento == idEquipamento && c.DataSaida == null);
         }
     }
 }

@@ -20,6 +20,10 @@ namespace senai.Projeto_Inicial.webApi.Interfaces
         /// <returns>Lista de Salas</returns>
         List<Sala> Listar();
 
+        List<Sala> ListarAndares();
+
+        Sala BuscarPorId(int id);
+
         /// <summary>
         /// Atualiza sala
         /// </summary>

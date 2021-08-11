@@ -86,12 +86,13 @@ namespace senai.Projeto_Inicial.webApi.Controllers
             }
         }
 
-        [HttpPost("{id}")]
-        public IActionResult Get(int id)
+        //[Authorize]
+        [HttpGet("Equipamentos/{id}")]
+        public IActionResult GetByIdEquipamentos(int id)
         {
             try
             {
-                return Ok(_salaEquipamentoRepository.ListarEquipamentosNaSala(id));
+                return Ok(_salaEquipamentoRepository.BuscarPorIdEquipamento(id));
             }
             catch (Exception ex)
             {

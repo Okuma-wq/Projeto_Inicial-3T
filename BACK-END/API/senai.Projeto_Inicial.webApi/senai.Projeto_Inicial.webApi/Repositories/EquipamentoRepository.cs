@@ -39,6 +39,7 @@ namespace senai.Projeto_Inicial.webApi.Repositories
             ctx.SaveChanges();
         }
 
+
         public Equipamento BuscarPorId(int id)
         {
             return ctx.Equipamentos.FirstOrDefault(c => c.IdEquipamento == id);
