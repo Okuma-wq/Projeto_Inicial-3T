@@ -393,7 +393,6 @@ class Salas extends Component {
                                             return ''
                                         })
                                     }
-
                                 </div>
                             </div>
                         </div>
