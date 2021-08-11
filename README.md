@@ -9,7 +9,7 @@ Sistema de gerenciamento de patrimônio de uma escola
 <br>
 
 <div align=center> 
- <img   alt="Aplicação em execução" height="350" width="100%" src="https://imgur.com/6AHjsi7.gif">  
+ <img   alt="Aplicação em execução" height="350" width="590" src="https://imgur.com/hYH3HC0.gif">  
 </div> 
 
 ## Funções  
@@ -34,6 +34,7 @@ Criar um cadastro de equipamentos com os seguintes campos:
 ## Funcionalidades  
 - Sala: CRUD; 
 - Equipamento: CRUD;
+- Ordernar 
  - Controle de entrada e saída de equipamento *(interno, externo).*
  
 
