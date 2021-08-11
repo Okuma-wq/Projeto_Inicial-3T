@@ -230,7 +230,7 @@ class Equipamentos extends Component {
     cancelaModal = () => {
         this.setState({ isModalOpenCadastro : false })
         this.setState({ isModalOpenInfo : false })
-        this.setState({ isModalOpenCadastro : false })
+        this.setState({ isModalOpenEditar : false })
         this.setState({ idTipoEquipamento : 0 })
         this.setState({ idSala : 0 })
         this.setState({ nomeEquipamento : '' })
@@ -312,9 +312,9 @@ class Equipamentos extends Component {
                 </div>
                 
                 <Modal isOpen={this.state.isModalOpenInfo} >
-                    <div className="modal">
-                        
-                        <div className="modal-card-background-info-equipamentos">
+                    <div className="modal-overlay">
+                        <div className="modal" id="modal" onClick={() => document.getElementById('modal-card').click() ? console.log('modal-card') : this.cancelaModal()}></div>
+                        <div id="modal-card" className="modal-card-background-info-equipamentos">
                             <div className="modal-card-background-info-equipamentos-lateral">
                                 <img draggable="false" src={icon} />
                             </div>
@@ -388,8 +388,9 @@ class Equipamentos extends Component {
                 </Modal>
 
                 <Modal isOpen={this.state.isModalOpenCadastro}>
-                    <div className="modal">
-                        <form onSubmit={this.cadastrarEquipamento} className="modal-card-background-equipamentos">
+                    <div className="modal-overlay">
+                        <div className="modal" id="modal" onClick={() => document.getElementById('modal-card').click() ? console.log('modal-card') : this.cancelaModal()}></div>
+                        <form id="modal-card" onSubmit={this.cadastrarEquipamento} className="modal-card-background-equipamentos">
                             <div className="modal-card-title">
                                 <p>Cadastrar Equipamento</p>
                             </div>
@@ -479,8 +480,9 @@ class Equipamentos extends Component {
                 </Modal>
 
                 <Modal isOpen={this.state.isModalOpenEditar}>
-                    <div className="modal">
-                        <form onSubmit={this.editarEquipamentos} className="modal-card-background-equipamentos-editar">
+                    <div className="modal-overlay">
+                        <div className="modal" id="modal" onClick={() => document.getElementById('modal-card').click() ? console.log('modal-card') : this.cancelaModal()}></div>
+                        <form id="modal-card" onSubmit={this.editarEquipamentos} className="modal-card-background-equipamentos-editar">
                             <div className="modal-card-title">
                                 <p>Editar Equipamento</p>
                             </div>

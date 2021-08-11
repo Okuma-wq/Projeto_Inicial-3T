@@ -172,14 +172,16 @@
     background: rgba(38, 50, 56, 0.43);
     mix-blend-mode: normal;
     backdrop-filter: blur(7px);
+    z-index: -1;
+    position: absolute;
 
 
-    position: fixed;
+    /* position: fixed;
     top: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Montserrat';
+    font-family: 'Montserrat'; */
 }
 
 
@@ -192,6 +194,7 @@
     border-radius: 3px;
     padding: 20px;
     background-color: white;
+    z-index: 1;
 }
 
 .modal-card-title{
@@ -315,6 +318,7 @@
     border-radius: 9.5px;
     padding: 20px;
     background-color: white;
+    z-index: 1;
 }
 
 .modal-card-content-info-header{
@@ -541,4 +545,16 @@
 .modal-card-content-info-lista-equipamentos-lista::-webkit-scrollbar-thumb{
     background: linear-gradient(170.14deg, #1B415C -1.25%, #3581B8 92.6%);
     border-radius: 9px;
+}
+
+.modal-overlay{
+    width: 100%;
+    height: 100%;
+    
+    position: fixed;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Montserrat';
 }

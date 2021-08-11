@@ -22,6 +22,13 @@ import ordenarup from '../../assets/img/ordenar-up-icon.svg';
 
 
 
+// document.getElementById('modal')function(){
+//     var classe = document.querySelector(this).className;
+//     alert(classe);
+// }
+
+
+
 class Salas extends Component {
     constructor(props){
         super(props);
@@ -227,7 +234,7 @@ class Salas extends Component {
     cancelaModal = () => {
         this.setState({ isModalOpenCadastro : false })
         this.setState({ isModalOpenInfo : false })
-        this.setState({ isModalOpenCadastro : false })
+        this.setState({ isModalOpenEditar : false })
         this.setState({ nomeSala : '' })
         this.setState({ andar : 0 })
         this.setState({ metragem : 0 })
@@ -292,8 +299,9 @@ class Salas extends Component {
                 </div>
 
                 <Modal isOpen={this.state.isModalOpenCadastro}>
-                    <div className="modal">
-                        <form onSubmit={this.cadastrarSala} className="modal-card-background">
+                    <div className="modal-overlay">
+                        <div className="modal" id="modal" onClick={() => document.getElementById('modal-card').click() ? '' : this.cancelaModal()}></div>
+                        <form onSubmit={this.cadastrarSala} id="modal-card" className="modal-card-background">
                             <div className="modal-card-title">
                                 <p>Cadastrar Sala</p>
                             </div>
@@ -301,7 +309,7 @@ class Salas extends Component {
                             <div className="modal-card-form">
                                 <input name="nomeSala" value={this.state.nomeSala} onChange={this.atualizaEstado} required type="text" placeholder="Nome da sala" className="modal-card-form-input-nome" />
                                 <div className="modal-card-form-input-metragem-andar">
-                                    <div className="modal-card-form-input-metragem-content">
+                                    <div  className="modal-card-form-input-metragem-content">
                                         <input name="metragem" value={this.state.metragem} onChange={this.atualizaEstado} required type="text" placeholder="Metragem (m²)" className="modal-card-form-input-metragem" />
                                     </div>
                                     <input quantity max="2" min="0" name="andar" value={this.state.andar} onChange={this.atualizaEstado} required type="number" placeholder="Andar" className="modal-card-form-input-andar" />
@@ -319,12 +327,13 @@ class Salas extends Component {
                             </div>
                         </form>
                     </div>
+
                 </Modal>
 
                 <Modal isOpen={this.state.isModalOpenInfo}>
-                    <div className="modal">
-                        
-                        <div className="modal-card-background-info-salas">
+                    <div className="modal-overlay">
+                        <div className="modal" id="modal" onClick={() => document.getElementById('modal-card').click() ? '' : this.cancelaModal()}></div>
+                        <div id="modal-card" className="modal-card-background-info-salas">
                             <div className="modal-card-content-info-header">
                                 <div className="modal-card-content-info-header-text">
 
@@ -400,8 +409,9 @@ class Salas extends Component {
                 </Modal>
 
                 <Modal isOpen={this.state.isModalOpenEditar}>
-                    <div className="modal">
-                        <div className="modal-card-background">
+                    <div className="modal-overlay">
+                        <div className="modal" id="modal" onClick={() => document.getElementById('modal-card').click() ? '' : this.cancelaModal()}></div>
+                        <div id="modal-card" className="modal-card-background">
                             <div className="modal-card-title">
                                 <p>Editar Sala</p>
                             </div>
