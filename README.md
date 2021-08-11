@@ -1,3 +1,4 @@
+
  
 # Projeto Inicial 3T Projeto da primeira semana 3º de Desenvolvimento de Sistemas 
 
@@ -8,7 +9,7 @@ Sistema de gerenciamento de patrimônio de uma escola
 <br>
 
 <div align=center> 
-![Aplicação de um sistema de gerenciamento de patrimonio]([https://imgur.com/6AHjsi7](https://imgur.com/6AHjsi7 "https://imgur.com/6AHjsi7"))  
+ <img   alt="Aplicação em execução" height="" width="100%" src="https://imgur.com/6AHjsi7.gif">  
 </div> 
 
 ## Funções  
@@ -44,13 +45,15 @@ Criar um cadastro de equipamentos com os seguintes campos:
 
 **2º de um git checkout react_equipamentos** 
  
+ 
 <div align=center> 
-![Orientação do git checkout](https://imgur.com/pKX2dhX)
+<img   alt="git checkout" height="250" width="400" src="https://imgur.com/pKX2dhX.png">  
 </div> 
 
 **3º Abra o seu SQL Server Management Studio  e copie o seu nome do servidor, Vá  na pasta BD execute os scripts.**
+
 <div align=center> 
-![copie seu nome de servidor](https://imgur.com/pKX2dhX)
+<img   alt="nome do servidor" height="250" width="420" src="https://imgur.com/tZrcvzw.png">  
 </div> 
 
 **4º Vá na Pasta  
@@ -59,7 +62,7 @@ e abra a pasta context, depois abra o arquivo: ProjetoInicialContext.cs**
 
 **5ºCom o seu nome do servidor copiado,  substituído que nem no exemplo:**
 <div align=center> 
-![nome do seu servidor](https://imgur.com/mNikwn6)
+<img   alt="substituindo o nome do servidor" height="350" width="620" src="https://imgur.com/mNikwn6.gif">  
 </div> 
 
 **6ºNa própria pasta da API Projeto_Inicial-3T\BACK-END\API\senai.Projeto_Inicial.webApi\senai.Projeto_Inicial.webApi abra o cmd e execute o seguinte comando:**
