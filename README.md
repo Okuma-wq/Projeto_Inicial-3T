@@ -9,7 +9,7 @@ Sistema de gerenciamento de patrimônio de uma escola
 <br>
 
 <div align=center> 
- <img   alt="Aplicação em execução" height="350" width="620" src="https://imgur.com/6AHjsi7.gif">  
+ <img   alt="Aplicação em execução" height="350" width="580" src="https://imgur.com/6AHjsi7.gif">  
 </div> 
 
 ## Funções  
